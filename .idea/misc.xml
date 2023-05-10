@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/read_file/pom.xml" />
+        <option value="$PROJECT_DIR$/gestorcsv/pom.xml" />
       </list>
     </option>
   </component>
