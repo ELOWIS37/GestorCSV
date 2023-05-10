@@ -304,6 +304,11 @@ public class GestorCSV extends javax.swing.JFrame {
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem4.setText("Sortir");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
@@ -427,6 +432,10 @@ public class GestorCSV extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -474,16 +483,16 @@ public class GestorCSV extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
-    private static javax.swing.JRadioButton rButton1;
-    private static javax.swing.JRadioButton rButton10;
-    private static javax.swing.JRadioButton rButton2;
-    private static javax.swing.JRadioButton rButton3;
-    private static javax.swing.JRadioButton rButton4;
-    private static javax.swing.JRadioButton rButton5;
-    private static javax.swing.JRadioButton rButton6;
-    private static javax.swing.JRadioButton rButton7;
-    private static javax.swing.JRadioButton rButton8;
-    private static javax.swing.JRadioButton rButton9;
+    private javax.swing.JRadioButton rButton1;
+    private javax.swing.JRadioButton rButton10;
+    private javax.swing.JRadioButton rButton2;
+    private javax.swing.JRadioButton rButton3;
+    private javax.swing.JRadioButton rButton4;
+    private javax.swing.JRadioButton rButton5;
+    private javax.swing.JRadioButton rButton6;
+    private javax.swing.JRadioButton rButton7;
+    private javax.swing.JRadioButton rButton8;
+    private javax.swing.JRadioButton rButton9;
     private javax.swing.JTextArea textArea;
     private javax.swing.JTextField textField;
     // End of variables declaration//GEN-END:variables
