@@ -5,19 +5,23 @@
 package com.furroy.gestorcsv.clases;
 
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 /**
  *
  * @author ELOY
  */
 public class FiltreCSV extends javax.swing.JFrame {
-    String sep = File.separator;
-    String rutaProjecte = System.getProperty("user.dir");
-
-    String rutaConf = rutaProjecte+sep+"config"+sep;
+    static String rutaProjecte = System.getProperty("user.dir");
+    static String sep = File.separator;
+    static String rutaConf = new File(rutaProjecte).getParent() + sep + "config" + sep;
+    static String rutaOutput = rutaConf + "output";
 
     public FiltreCSV() {
         initComponents();
@@ -38,13 +42,26 @@ public class FiltreCSV extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        infoTextArea = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Filtrar 'base.csv'");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+                    jButton1ActionPerformed(evt);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -65,29 +82,76 @@ public class FiltreCSV extends javax.swing.JFrame {
 
         jLabel4.setText("Accedir al directori dels arxius de sortida.");
 
+        infoTextArea.setEditable(false);
+        infoTextArea.setColumns(20);
+        infoTextArea.setRows(5);
+        jScrollPane1.setViewportView(infoTextArea);
+
+        jMenu1.setText("Arxiu");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setText("Autoborrar On/Off");
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Programa");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Arxius CSV");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setText("Filtre CSV");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setText("Sortir");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
@@ -99,7 +163,9 @@ public class FiltreCSV extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jLabel4))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
 
         pack();
@@ -107,7 +173,6 @@ public class FiltreCSV extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-                String rutaOutput = rutaConf + sep + "output";
                 // Obtener el objeto File de la carpeta
                 File carpeta = new File(rutaOutput);
 
@@ -123,14 +188,62 @@ public class FiltreCSV extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GestorCSV g2 = new GestorCSV();
+        g2.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        FiltreCSV f2 = new FiltreCSV();
+        f2.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
+        
         String baseFile = rutaConf + "Base.csv";
         String filtreFile = rutaConf + "Filtre.csv";
 
         // Crea los archivos de salida dentro de la carpeta "output"
         File outFile = new File(rutaConf + sep + "output" + sep + "out.csv");
         File infoFile = new File(rutaConf + sep + "output" + sep + "info.txt");
+        
+        Thread.sleep(1000);
+        infoTextArea.append("GENERANT ARXIUS DE SORTIDA\n");
+        
+        Timer timer = new Timer(500, new ActionListener() {
+            int counter = 0;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (counter) {
+                    case 0:
+                        infoTextArea.append("- -Creant out.csv\n");
+                        infoTextArea.append("- -Creant info.txt\n");
+                        break;
+                    case 1:
+                        infoTextArea.append("\n");
+                        infoTextArea.append("Procés finalitzat\n");
+                        infoTextArea.append("\n");
+                        infoTextArea.append("Ruta arxius de sortida: " + rutaOutput + "\n");
+                        infoTextArea.append("\n");
+                        break;
+
+                    default:
+                        // Terminar el temporizador después de que todas las acciones se hayan ejecutado
+                        ((Timer) e.getSource()).stop();
+                        break;
+                }
+                counter++;
+            }
+        }); 
+        
+        timer.start();
+        
 
         try (BufferedReader baseReader = new BufferedReader(new FileReader(baseFile));
              BufferedReader filtreReader = new BufferedReader(new FileReader(filtreFile));
@@ -158,19 +271,22 @@ public class FiltreCSV extends javax.swing.JFrame {
             if (!codigosNoEncontrados.isEmpty()) {
                 infoWriter.write("Els següents codis d'article no s'han trobats en l'arxiu base.csv:");
                 infoWriter.newLine();
-                for (String codigo : codigosNoEncontrados) {
+                for (String codigo : codigosNoEncontrados) { 
                     infoWriter.write(codigo);
                     infoWriter.newLine();
                 }
+                
             } else {
                 infoWriter.write("Tots els codis d'article en l'arxiu filtre.csv coincideixen amb l'arxiu base.csv");
                 infoWriter.newLine();
             }
-
-            System.out.println("Procés finalitzat");
+            
+            
 
         } catch (IOException e) {
             System.out.println("Error al processar els arxius: " + e.getMessage());
+            infoTextArea.append("No s'han creat els arxius correctament\n");
+            timer.stop();
         }
     }
 
@@ -211,11 +327,20 @@ public class FiltreCSV extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JTextArea infoTextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

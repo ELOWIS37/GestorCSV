@@ -5,7 +5,7 @@ import com.furroy.gestorcsv.clases.GestorCSV;
 /**
  *
  * @author ELOY
- * @version 4.8.8
+ * @version 5.0
  */
 public class AppMain {
     public static void main (String[] args){
