@@ -21,7 +21,6 @@ public class FiltreCSV extends javax.swing.JFrame {
     static String rutaProjecte = System.getProperty("user.dir");
     static String sep = File.separator;
     static String rutaConf = new File(rutaProjecte).getParent() + sep + "config" + sep;
-    static String rutaOutput = rutaConf + "output";
 
     public FiltreCSV() {
         initComponents();
@@ -174,7 +173,7 @@ public class FiltreCSV extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
                 // Obtener el objeto File de la carpeta
-                File carpeta = new File(rutaOutput);
+                File carpeta = new File(rutaConf);
 
                 // Verificar si la carpeta existe y es un directorio
                 if (carpeta.exists() && carpeta.isDirectory()) {
@@ -210,8 +209,8 @@ public class FiltreCSV extends javax.swing.JFrame {
         String filtreFile = rutaConf + "Filtre.csv";
 
         // Crea los archivos de salida dentro de la carpeta "output"
-        File outFile = new File(rutaConf + sep + "output" + sep + "out.csv");
-        File infoFile = new File(rutaConf + sep + "output" + sep + "info.txt");
+        File outFile = new File(rutaConf + sep + "out.csv");
+        File infoFile = new File(rutaConf + sep + "info.txt");
         
         Thread.sleep(1000);
         infoTextArea.append("GENERANT ARXIUS DE SORTIDA\n");
@@ -229,7 +228,7 @@ public class FiltreCSV extends javax.swing.JFrame {
                         infoTextArea.append("\n");
                         infoTextArea.append("Procés finalitzat\n");
                         infoTextArea.append("\n");
-                        infoTextArea.append("Ruta arxius de sortida: " + rutaOutput + "\n");
+                        infoTextArea.append("Ruta arxius de sortida: " + rutaConf + "\n");
                         infoTextArea.append("\n");
                         break;
 
@@ -245,50 +244,62 @@ public class FiltreCSV extends javax.swing.JFrame {
         timer.start();
         
 
-        try (BufferedReader baseReader = new BufferedReader(new FileReader(baseFile));
-             BufferedReader filtreReader = new BufferedReader(new FileReader(filtreFile));
-             BufferedWriter outWriter = new BufferedWriter(new FileWriter(outFile));
-             BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile))) {
+      try (BufferedReader baseReader = new BufferedReader(new FileReader(baseFile));
+         BufferedReader filterReader = new BufferedReader(new FileReader(filtreFile));
+         BufferedWriter outWriter = new BufferedWriter(new FileWriter(outFile));
+         BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile))) {
 
-            Set<String> codigosBase = new HashSet<>();
-            String line;
-            while ((line = baseReader.readLine()) != null) {
-                String codigo = line.split(",")[0].trim();
-                codigosBase.add(codigo);
-            }
+        Set<String> baseCodes = new HashSet<>();
+        String baseLine;
+        while ((baseLine = baseReader.readLine()) != null) {
+            String baseCode = baseLine.split(",")[0].trim();
+            baseCodes.add(baseCode);
+        }
 
-            Set<String> codigosNoEncontrados = new HashSet<>();
-            while ((line = filtreReader.readLine()) != null) {
-                String codigo = line.split(",")[0].trim();
-                if (codigosBase.contains(codigo)) {
-                    outWriter.write(line);
-                    outWriter.newLine();
-                } else {
-                    codigosNoEncontrados.add(codigo);
-                }
-            }
-
-            if (!codigosNoEncontrados.isEmpty()) {
-                infoWriter.write("Els següents codis d'article no s'han trobats en l'arxiu base.csv:");
-                infoWriter.newLine();
-                for (String codigo : codigosNoEncontrados) { 
-                    infoWriter.write(codigo);
-                    infoWriter.newLine();
-                }
-                
+        Set<String> notFoundCodes = new HashSet<>();
+        String filterLine;
+        while ((filterLine = filterReader.readLine()) != null) {
+            String filterCode = filterLine.split(",")[0].trim();
+            if (baseCodes.contains(filterCode)) {
+                outWriter.write(getDescriptionByCode(baseFile, filterCode));
+                outWriter.newLine();
             } else {
-                infoWriter.write("Tots els codis d'article en l'arxiu filtre.csv coincideixen amb l'arxiu base.csv");
+                notFoundCodes.add(filterCode);
+            }
+        }
+
+        if (!notFoundCodes.isEmpty()) {
+            infoWriter.write("Els següents codis d'article no s'han trobat en l'arxiu base.csv:");
+            infoWriter.newLine();
+            for (String code : notFoundCodes) {
+                infoWriter.write(code);
                 infoWriter.newLine();
             }
-            
-            
+        } else {
+            infoWriter.write("Tots els codis d'article en l'arxiu filtre.csv coincideixen amb l'arxiu base.csv");
+            infoWriter.newLine();
+        }
 
-        } catch (IOException e) {
-            System.out.println("Error al processar els arxius: " + e.getMessage());
-            infoTextArea.append("No s'han creat els arxius correctament\n");
-            timer.stop();
+        System.out.println("Els arxius s'han generat correctament en la carpeta \"config\"");
+
+    } catch (IOException e) {
+        System.out.println("Error al processar els arxius: " + e.getMessage());
+    }
+    }
+    
+    private String getDescriptionByCode(String baseFile, String code) throws IOException {
+    try (BufferedReader baseReader = new BufferedReader(new FileReader(baseFile))) {
+        String baseLine;
+        while ((baseLine = baseReader.readLine()) != null) {
+            String[] parts = baseLine.split(",");
+            String baseCode = parts[0].trim();
+            if (baseCode.equals(code)) {
+                return baseLine;
+            }
         }
     }
+    return "";
+}
 
 
     /**
