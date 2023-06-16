@@ -18,8 +18,10 @@ import javax.swing.Timer;
  * @author ELOY
  */
 public class FiltreCSV extends javax.swing.JFrame {
+    // Trobar automàticament la ruta del projecte 
     static String rutaProjecte = System.getProperty("user.dir");
     static String sep = File.separator;
+    // Ruta aurxiu de configuració
     static String rutaConf = new File(rutaProjecte).getParent() + sep + "config" + sep;
 
     public FiltreCSV() {
@@ -43,6 +45,7 @@ public class FiltreCSV extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         infoTextArea = new javax.swing.JTextArea();
+        checkboxDuplicate = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -85,6 +88,8 @@ public class FiltreCSV extends javax.swing.JFrame {
         infoTextArea.setColumns(20);
         infoTextArea.setRows(5);
         jScrollPane1.setViewportView(infoTextArea);
+
+        checkboxDuplicate.setText("Cerca només el primer codi duplicat");
 
         jMenu1.setText("Arxiu");
 
@@ -133,26 +138,33 @@ public class FiltreCSV extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(258, 258, 258))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(checkboxDuplicate)
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -161,7 +173,8 @@ public class FiltreCSV extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(checkboxDuplicate))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
@@ -169,7 +182,7 @@ public class FiltreCSV extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // Obrir la carpeta de configuració del programa
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
                 // Obtener el objeto File de la carpeta
@@ -186,23 +199,23 @@ public class FiltreCSV extends javax.swing.JFrame {
                 System.out.println("Error al obrir la carpeta: " + ex.getMessage());
             }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    // Canviar de pestanya menu
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         GestorCSV g2 = new GestorCSV();
         g2.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
+    
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         FiltreCSV f2 = new FiltreCSV();
         f2.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    // Sortir del programa
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
+    // Filtrar l'arxiu base al fer clic al botó 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
         
         String baseFile = rutaConf + "Base.csv";
@@ -210,14 +223,14 @@ public class FiltreCSV extends javax.swing.JFrame {
 
         // Crea los archivos de salida dentro de la carpeta "output"
         File outFile = new File(rutaConf + sep + "out.csv");
-        File infoFile = new File(rutaConf + sep + "info.txt");
+        File infoFile = new File(rutaConf + sep + "info.txt"); 
         
         Thread.sleep(1000);
         infoTextArea.append("GENERANT ARXIUS DE SORTIDA\n");
         
         Timer timer = new Timer(500, new ActionListener() {
             int counter = 0;
-            @Override
+            @Override 
             public void actionPerformed(ActionEvent e) {
                 switch (counter) {
                     case 0:
@@ -231,7 +244,7 @@ public class FiltreCSV extends javax.swing.JFrame {
                         infoTextArea.append("Ruta arxius de sortida: " + rutaConf + "\n");
                         infoTextArea.append("\n");
                         break;
-
+                        
                     default:
                         // Terminar el temporizador después de que todas las acciones se hayan ejecutado
                         ((Timer) e.getSource()).stop();
@@ -252,22 +265,26 @@ public class FiltreCSV extends javax.swing.JFrame {
         Set<String> baseCodes = new HashSet<>();
         String baseLine;
         while ((baseLine = baseReader.readLine()) != null) {
-            String baseCode = baseLine.split(",")[0].trim();
+            String baseCode = baseLine.split(";")[0].trim();
             baseCodes.add(baseCode);
         }
 
         Set<String> notFoundCodes = new HashSet<>();
         String filterLine;
         while ((filterLine = filterReader.readLine()) != null) {
-            String filterCode = filterLine.split(",")[0].trim();
-            if (baseCodes.contains(filterCode)) {
-                outWriter.write(getDescriptionByCode(baseFile, filterCode));
-                outWriter.newLine();
-            } else {
-                notFoundCodes.add(filterCode);
-            }
+    String filterCode = filterLine.split(";")[0].trim();
+    boolean codeFound = false;
+    for (String baseCode : baseCodes) {
+        if (baseCode.startsWith(filterCode)) {
+            outWriter.write(getDescriptionByCode(baseFile, baseCode));
+            outWriter.newLine();
+            codeFound = true;
         }
-
+    }
+    if (!codeFound) {
+        notFoundCodes.add(filterCode);
+    }
+}
         if (!notFoundCodes.isEmpty()) {
             infoWriter.write("Els següents codis d'article no s'han trobat en l'arxiu base.csv:");
             infoWriter.newLine();
@@ -291,7 +308,7 @@ public class FiltreCSV extends javax.swing.JFrame {
     try (BufferedReader baseReader = new BufferedReader(new FileReader(baseFile))) {
         String baseLine;
         while ((baseLine = baseReader.readLine()) != null) {
-            String[] parts = baseLine.split(",");
+            String[] parts = baseLine.split(";");
             String baseCode = parts[0].trim();
             if (baseCode.equals(code)) {
                 return baseLine;
@@ -338,7 +355,8 @@ public class FiltreCSV extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JTextArea infoTextArea;
+    private javax.swing.JCheckBox checkboxDuplicate;
+    private javax.swing.JTextArea infoTextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
