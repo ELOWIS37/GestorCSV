@@ -293,7 +293,7 @@ public class FiltreCSV extends javax.swing.JFrame {
          BufferedReader filterReader = new BufferedReader(new FileReader(filtreFile));
          BufferedWriter outWriter = new BufferedWriter(new FileWriter(outFile));
          BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile))) {
-          
+        
         if(jRadioButton1.isSelected()){
             Set<String> notFoundCodes = new HashSet<>();
             String filterLine;
@@ -301,14 +301,24 @@ public class FiltreCSV extends javax.swing.JFrame {
                 String filterCode = filterLine.split(";")[0].trim();
                 boolean codeFound = false;
                 String baseLine;
-                while ((baseLine = baseReader.readLine()) != null) {
-                    if (baseLine.contains(filterCode)) {
-                        outWriter.write(baseLine);
-                        outWriter.newLine();
-                        codeFound = true;
-                        break;
-                    }
-                }
+                // int contador = 0;
+               
+                    while ((baseLine = baseReader.readLine()) != null) {
+                        if (baseLine.contains(filterCode)) {
+                            outWriter.write(baseLine);
+                            outWriter.newLine();
+                            codeFound = true;
+                            //contador++;
+                            //if (contador == 3){
+                            //    break; 
+                            //}
+                            break;
+                            
+                        }
+                    
+                    } 
+                
+                
                 if (!codeFound) {
                     notFoundCodes.add(filterCode);
                 }
