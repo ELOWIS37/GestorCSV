@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -54,6 +56,7 @@ public class FiltreCSV extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -75,7 +78,7 @@ public class FiltreCSV extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Al fer clic al botó, per cada fila de 'filtre.csv' cercarà per 'codi_article' totes les files coincidents amb l'arxiu 'base.csv'.");
+        jLabel1.setText("Al fer clic al botó, l'arxiu 'Filtre.csv' cercarà les files coincidents amb l'arxiu 'Base.csv' depenent del cas seleccionat.");
 
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
         jLabel2.setText("Filtrar csv");
@@ -108,10 +111,18 @@ public class FiltreCSV extends javax.swing.JFrame {
         CasosGroup.add(jRadioButton3);
         jRadioButton3.setText("Cercar igual a la primera columna");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("CASOS");
+
         jMenu1.setText("Arxiu");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem1.setText("Autoborrar On/Off");
+        jMenuItem1.setText("Cercar tot On/Off");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -169,26 +180,27 @@ public class FiltreCSV extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton2)
                             .addComponent(jRadioButton1)
                             .addComponent(jRadioButton3)
-                            .addComponent(checkboxDuplicate))
-                        .addContainerGap(71, Short.MAX_VALUE))))
+                            .addComponent(checkboxDuplicate)
+                            .addComponent(jLabel5))
+                        .addContainerGap(71, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -198,15 +210,17 @@ public class FiltreCSV extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jRadioButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addComponent(checkboxDuplicate))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56))
@@ -247,6 +261,14 @@ public class FiltreCSV extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if (checkboxDuplicate.isSelected()){
+            checkboxDuplicate.setSelected(false);
+        } else {
+          checkboxDuplicate.setSelected(true);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     // Filtrar l'arxiu base al fer clic al botó 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
         
@@ -254,7 +276,7 @@ public class FiltreCSV extends javax.swing.JFrame {
         String filtreFile = rutaConf + "Filtre.csv";
 
         // Crea los archivos de salida dentro de la carpeta "output"
-        File outFile = new File(rutaConf + sep + "out.csv");
+        File outFile = new File(rutaConf + sep + "out.csv"); 
         File infoFile = new File(rutaConf + sep + "info.txt"); 
         
         Thread.sleep(1000);
@@ -293,14 +315,70 @@ public class FiltreCSV extends javax.swing.JFrame {
          BufferedReader filterReader = new BufferedReader(new FileReader(filtreFile));
          BufferedWriter outWriter = new BufferedWriter(new FileWriter(outFile));
          BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile))) {
-        
-        if(jRadioButton1.isSelected()){
-            Set<String> notFoundCodes = new HashSet<>();
+
+         if(jRadioButton1.isSelected()){
+            if (checkboxDuplicate.isSelected()) {
+                Set<String> notFoundCodes = new HashSet<>();
+                Set<String> writtenLines = new HashSet<>(); 
+                String filterLine;
+                boolean trobat = false;
+                boolean canvi = false;
+
+                while ((filterLine = filterReader.readLine()) != null) {
+                    String filterCode = filterLine.split(";")[0].trim();
+                    boolean codeFound = false;
+                    String baseLine;
+
+                    BufferedReader baseReaderCopy = new BufferedReader(new FileReader(baseFile));
+                    trobat = false;
+
+                    Set<String> productsFound = new HashSet<>();
+
+                    while ((baseLine = baseReaderCopy.readLine()) != null) {
+                        if (baseLine.contains(filterCode)) {
+                            if (productsFound.add(baseLine) && writtenLines.add(baseLine)) { 
+                                outWriter.write(baseLine);
+                                outWriter.newLine();
+                            }
+                            codeFound = true;
+                            trobat = true;
+                            canvi = true;
+                        }
+                    }
+
+                    baseReaderCopy.close();
+
+                    if (!codeFound) {
+                        notFoundCodes.add(filterCode);
+                    }
+
+                    if (trobat && canvi) {
+                        canvi = false;
+                    }
+                }
+
+
+                if (!notFoundCodes.isEmpty()) {
+                    infoWriter.write("Els següents codis d'article no s'han trobat a l'arxiu base.csv:");
+                    infoWriter.newLine();
+                    for (String code : notFoundCodes) {
+                        infoWriter.write(code);
+                        infoWriter.newLine();
+                    }
+                } else {
+                    infoWriter.write("Tots els codis d'article a l'arxiu filtre.csv coincideixen amb l'arxiu base.csv");
+                    infoWriter.newLine();
+                }
+
+                System.out.println("Els arxius s'han generat correctament a la carpeta \"config\"");
+            } else {
+                Set<String> notFoundCodes = new HashSet<>();
             String filterLine;
             while ((filterLine = filterReader.readLine()) != null) {
                 String filterCode = filterLine.split(";")[0].trim();
                 boolean codeFound = false;
                 String baseLine;
+                
                 // int contador = 0;
                
                     while ((baseLine = baseReader.readLine()) != null) {
@@ -339,6 +417,9 @@ public class FiltreCSV extends javax.swing.JFrame {
 
             System.out.println("Els arxius s'han generat correctament a la carpeta \"config\"");
         }
+            }
+
+            
         else if(jRadioButton2.isSelected()){
             Set<String> baseCodes = new HashSet<>();
             String baseLine;
@@ -430,9 +511,13 @@ public class FiltreCSV extends javax.swing.JFrame {
             infoTextArea.append("< -- ERROR -- > \n");
             infoTextArea.append("S'ha esborrat el contingut de out.csv i info.txt \n");
             infoTextArea.append("\n");
+            JOptionPane.showMessageDialog(null, "Has de seleccionar un CAS!");
         }
     } catch (IOException e) {
         System.out.println("Error al processar els arxius: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "              Error al processar els arxius."
+                + "\nVerifica el codi i que totes les rutes estigin correctes.");
+        
       }
     }
     
@@ -496,6 +581,7 @@ public class FiltreCSV extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
