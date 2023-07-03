@@ -120,7 +120,7 @@
                           <Component id="checkboxDuplicate" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="71" max="32767" attributes="0"/>
+                      <EmptySpace pref="81" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -229,7 +229,7 @@
     </Container>
     <Component class="javax.swing.JCheckBox" name="checkboxDuplicate">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cercar tot"/>
+        <Property name="text" type="java.lang.String" value="L&#xed;nies repetides"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButton1">
@@ -237,23 +237,29 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="CasosGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cercar per l&#xed;nia"/>
+        <Property name="text" type="java.lang.String" value="Cadena continguda"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButton2">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="CasosGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cercar per primera columna"/>
+        <Property name="text" type="java.lang.String" value="Cadena continguda 1&#xaa; columna"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButton3">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="CasosGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cercar igual a la primera columna"/>
+        <Property name="text" type="java.lang.String" value="Cadena igual 1&#xaa; columna"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -261,7 +267,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="CASOS"/>
+        <Property name="text" type="java.lang.String" value="OPCIONS CERCA"/>
       </Properties>
     </Component>
   </SubComponents>

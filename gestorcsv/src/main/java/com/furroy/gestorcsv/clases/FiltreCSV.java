@@ -100,19 +100,29 @@ public class FiltreCSV extends javax.swing.JFrame {
         infoTextArea.setRows(5);
         jScrollPane1.setViewportView(infoTextArea);
 
-        checkboxDuplicate.setText("Cercar tot");
+        checkboxDuplicate.setText("Línies repetides");
 
         CasosGroup.add(jRadioButton1);
-        jRadioButton1.setText("Cercar per línia");
+        jRadioButton1.setText("Cadena continguda");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         CasosGroup.add(jRadioButton2);
-        jRadioButton2.setText("Cercar per primera columna");
+        jRadioButton2.setText("Cadena continguda 1ª columna");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         CasosGroup.add(jRadioButton3);
-        jRadioButton3.setText("Cercar igual a la primera columna");
+        jRadioButton3.setText("Cadena igual 1ª columna");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("CASOS");
+        jLabel5.setText("OPCIONS CERCA");
 
         jMenu1.setText("Arxiu");
 
@@ -188,7 +198,7 @@ public class FiltreCSV extends javax.swing.JFrame {
                             .addComponent(jRadioButton3)
                             .addComponent(checkboxDuplicate)
                             .addComponent(jLabel5))
-                        .addContainerGap(71, Short.MAX_VALUE))
+                        .addContainerGap(81, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -269,11 +279,21 @@ public class FiltreCSV extends javax.swing.JFrame {
           checkboxDuplicate.setSelected(true);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
     // Filtrar l'arxiu base al fer clic al botó 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
         
         String baseFile = rutaConf + "Base.csv";
+        baseFile = baseFile.toLowerCase();
         String filtreFile = rutaConf + "Filtre.csv";
+        filtreFile = filtreFile.toLowerCase();
 
         // Crea los archivos de salida dentro de la carpeta "output"
         File outFile = new File(rutaConf + sep + "out.csv"); 
@@ -335,7 +355,7 @@ public class FiltreCSV extends javax.swing.JFrame {
                     Set<String> productsFound = new HashSet<>();
 
                     while ((baseLine = baseReaderCopy.readLine()) != null) {
-                        if (baseLine.contains(filterCode)) {
+                        if (baseLine.toLowerCase().contains(filterCode.toLowerCase())) {
                             if (productsFound.add(baseLine) && writtenLines.add(baseLine)) { 
                                 outWriter.write(baseLine);
                                 outWriter.newLine();
@@ -382,7 +402,7 @@ public class FiltreCSV extends javax.swing.JFrame {
                 // int contador = 0;
                
                     while ((baseLine = baseReader.readLine()) != null) {
-                        if (baseLine.contains(filterCode)) {
+                        if (baseLine.toLowerCase().contains(filterCode.toLowerCase())) {
                             outWriter.write(baseLine);
                             outWriter.newLine();
                             codeFound = true;
@@ -527,7 +547,7 @@ public class FiltreCSV extends javax.swing.JFrame {
         while ((baseLine = baseReader.readLine()) != null) {
             String[] parts = baseLine.split(";");
             String baseCode = parts[0].trim();
-            if (baseCode.equals(code)) {
+            if (baseCode.equalsIgnoreCase(code)) {
                 return baseLine;
             }
         }
